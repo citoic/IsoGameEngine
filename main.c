@@ -55,10 +55,10 @@ struct entity
 
 
 
-static const float tileXScale = 64;
-static const float tileXScaleCalc = 64;
-static const float tileYScale = 32;
-static const float tileYScaleCalc = 32;
+static const int tileXScale = 64;
+static const int tileXScaleCalc = 64;
+static const int tileYScale = 32;
+static const int tileYScaleCalc = 32;
 static const int screenScale = 250;
 
 void updateCoords(float x, float y, struct entity* e)
