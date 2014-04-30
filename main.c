@@ -151,18 +151,18 @@ int main(void)
     
     int tileW = 64;
     int tileH = 64;
-    GLuint grass = glTexImageTGAFile("/Users/citoic/Desktop/artA/t.tga", &tileW, &tileH );
-    GLuint grassDirtLeft = glTexImageTGAFile("/Users/citoic/Desktop/artA/t2.tga", &tileW, &tileW);
-    GLuint corner = glTexImageTGAFile("/Users/citoic/Desktop/artA/t3.tga", &tileW, &tileH );
-    GLuint ch = glTexImageTGAFile("/Users/citoic/Desktop/artA/char1.tga", &tileW, &tileH );
-    GLuint ch2 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char2.tga", &tileW, &tileH );
-    GLuint ch3 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char3.tga", &tileW, &tileH );
-    GLuint ch4 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char4.tga", &tileW, &tileH );
-    GLuint ch5 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char5.tga", &tileW, &tileH );
-    GLuint ch6 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char6.tga", &tileW, &tileH );
-    GLuint ch7 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char7.tga", &tileW, &tileH );
-    GLuint ch8 = glTexImageTGAFile("/Users/citoic/Desktop/artA/char8.tga", &tileW, &tileH );
-    GLuint cl = glTexImageTGAFile("/Users/citoic/Desktop/artA/t6.tga", &tileW, &tileH );
+    GLuint grass = glTexImageTGAFile("t.tga", &tileW, &tileH );
+    GLuint grassDirtLeft = glTexImageTGAFile("t2.tga", &tileW, &tileW);
+    GLuint corner = glTexImageTGAFile("t3.tga", &tileW, &tileH );
+    GLuint ch = glTexImageTGAFile("char1.tga", &tileW, &tileH );
+    GLuint ch2 = glTexImageTGAFile("char2.tga", &tileW, &tileH );
+    GLuint ch3 = glTexImageTGAFile("char3.tga", &tileW, &tileH );
+    GLuint ch4 = glTexImageTGAFile("char4.tga", &tileW, &tileH );
+    GLuint ch5 = glTexImageTGAFile("char5.tga", &tileW, &tileH );
+    GLuint ch6 = glTexImageTGAFile("char6.tga", &tileW, &tileH );
+    GLuint ch7 = glTexImageTGAFile("char7.tga", &tileW, &tileH );
+    GLuint ch8 = glTexImageTGAFile("char8.tga", &tileW, &tileH );
+    GLuint cl = glTexImageTGAFile("t6.tga", &tileW, &tileH );
    // GLuint pt = glTexImageTGAFile("/Users/citoic/Desktop/artA/dot.tga", &tileW, &tileH );
     
     struct entity player;
@@ -613,21 +613,7 @@ int main(void)
         
   
      
-        glColor4f( 0.0f, 0.0f, 0.0f, 0.4f );
-        //glEnable( GL_BLEND );
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-        //glStencilFunc( GL_NOTEQUAL, 0, 0xFFFFFFFFL );
-        //glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
-        glPushMatrix();
-        glLoadIdentity();
-        glBegin( GL_TRIANGLE_STRIP );
-        glVertex3f(-0.1f, 0.1f,-0.10f);
-        glVertex3f(-0.1f,-0.1f,-0.10f);
-        glVertex3f( 0.1f, 0.1f,-0.10f);
-        glVertex3f( 0.1f,-0.1f,-0.10f);
-        glEnd();
-        glPopMatrix();
-        glPopAttrib();
+
 
 
         //cast shaddows
