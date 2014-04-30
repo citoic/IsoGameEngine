@@ -14,7 +14,7 @@
 
 #define SDL_MAIN_HANDLED
 
-
+//structure to hold the coordinates of a four point polygon
 struct coords
 {
     float pt1x;
@@ -27,8 +27,7 @@ struct coords
     float pt4y;
 };
 
-
-
+//structure for defining an entity, or player
 struct entity
 {
     char type;
@@ -64,7 +63,6 @@ void updateCoords(float x, float y, struct entity* e)
 {
     e->pol.p1.xComp += x;
     e->pol.p1.yComp += y;
-    
     
     e->pol.p2.xComp += x;
     e->pol.p2.yComp += y;
@@ -114,7 +112,6 @@ void playerTick(struct entity* e)
 
 int main(void)
 {
-    //printf("test");
     //Initialize SDL
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -151,10 +148,9 @@ int main(void)
     
     int tileW = 64;
     int tileH = 64;
-    GLuint grass = glTexImageTGAFile("t.tga", &tileW, &tileH );
-    GLuint grassDirtLeft = glTexImageTGAFile("t2.tga", &tileW, &tileW);
-    GLuint corner = glTexImageTGAFile("t3.tga", &tileW, &tileH );
-    GLuint ch = glTexImageTGAFile("char1.tga", &tileW, &tileH );
+    GLuint empty = glTexImageTGAFile("t3.tga", &tileW, &tileH );
+    GLuint cube = glTexImageTGAFile("t2.tga", &tileW, &tileW);
+    GLuint ch1 = glTexImageTGAFile("char1.tga", &tileW, &tileH );
     GLuint ch2 = glTexImageTGAFile("char2.tga", &tileW, &tileH );
     GLuint ch3 = glTexImageTGAFile("char3.tga", &tileW, &tileH );
     GLuint ch4 = glTexImageTGAFile("char4.tga", &tileW, &tileH );
@@ -162,16 +158,16 @@ int main(void)
     GLuint ch6 = glTexImageTGAFile("char6.tga", &tileW, &tileH );
     GLuint ch7 = glTexImageTGAFile("char7.tga", &tileW, &tileH );
     GLuint ch8 = glTexImageTGAFile("char8.tga", &tileW, &tileH );
-    GLuint cl = glTexImageTGAFile("t6.tga", &tileW, &tileH );
-   // GLuint pt = glTexImageTGAFile("/Users/citoic/Desktop/artA/dot.tga", &tileW, &tileH );
+
     
+    //initialize player
     struct entity player;
     player.xPos = 0;
     player.yPos = 0;
     //struct coords crd;
    
     struct polygon pg;
-    
+    //bounding box for player
     pg.p1.xComp = 33.0;
     pg.p1.yComp = 1.0;
     
@@ -189,7 +185,7 @@ int main(void)
     player.zVel = 0;
     player.isJumping = 0;
     player.stack = 0;
-    player.image = &ch;
+    player.image = &ch1;
     
 
 
@@ -271,22 +267,16 @@ int main(void)
 
             if(tileType == 0)
             {
-                t.image = &grass;
+                t.image = &empty;
                 t.xScale = tileXScale;
                 t.yScale = tileYScale;
 
             }
             else if(tileType == 1)
             {
-                t.image = &grassDirtLeft;
+                t.image = &cube;
                 t.xScale = tileXScale;
                 t.yScale = tileXScale;
-
-                
-            }
-            else if(tileType == 2)
-            {
-                t.image = &corner;
             }
 
             tiles[count] = t;
@@ -316,8 +306,6 @@ int main(void)
     
     //lighting
     //glEnable(GL_LIGHTING);
-    
-
     
   
     int shouldExit = 0;  //change to int
@@ -351,12 +339,6 @@ int main(void)
     int castEnable = 0;
     int shaddow;
     
-    //int playerdraw = 0;
-    
-    //create dynamic array containing only the tiles on screen for shaddows
-
-  
-    //optimise drawing and collision
     
     while(!shouldExit)
     {
@@ -406,7 +388,7 @@ int main(void)
             }
             else if(angle < 120)
             {
-                player.image = &ch;
+                player.image = &ch1;
             }
             else if(angle < 170)
             {
@@ -483,10 +465,6 @@ int main(void)
                         xoffset += 1.5;
                     }
 
-                    //tiles[colindex].image = &cl;
-                    //playerJump(&player);
-                    // printf("collision");
-                    
                 }
             }
             
@@ -507,9 +485,6 @@ int main(void)
                         xoffset -= 1.5;
                     }
 
-                    //tiles[colindex].image = &cl;
-                    //printf("collision");
-                    
                 }
             }
             
@@ -530,12 +505,7 @@ int main(void)
                         updateCoords(0, 1.5, &player);
                         //player.isColliding = 0;
                     }
-                    //tiles[colindex].image = &cl;
-                    //printf("collision");
-                    
-                    //tiles[colindex].stack++;
-                    
-                    //tiles[colindex].collidable = 1;
+
                 }
             }
             
@@ -557,8 +527,6 @@ int main(void)
                         yoffset -= 1.5;
                     }
 
-                   // tiles[colindex].image = &cl;
-                    //printf("collision");
                     
                 }
             }
@@ -567,7 +535,7 @@ int main(void)
         }
         
         
-       
+
         
 
         //draw base layer
@@ -581,6 +549,7 @@ int main(void)
         
         
         //cast rays; optimise when to recalculate
+        //This is debug code
         glLineWidth(.1);
         glColor3f(1.0f, 0.0f, 0.0f);
         
@@ -617,6 +586,7 @@ int main(void)
 
 
         //cast shaddows
+        //This is debug code
         if(shaddow)
         {
             int z = 999;
@@ -634,8 +604,8 @@ int main(void)
             glVertex3f(player.pol.p1.xComp - xoffset, player.pol.p1.yComp - yoffset + screenScale + 64 - player.zpos, 0);
             glEnd();
             
-            
-            for(int z = 0; z < (mapWidth * mapHeight); z++)
+       
+            for(z = 0; z < (mapWidth * mapHeight); z++)
             {
                 if(tiles[z].stack > 1)
                 {
@@ -645,6 +615,7 @@ int main(void)
      
                         //glBegin(GL_TRIANGLES);
                         glBegin( GL_TRIANGLE_STRIP );
+                        
                         
                         glColor4f(0.4, 0.5, 0.6, .0);
                         glVertex3f(tiles[z].pol.p1.xComp - xoffset, tiles[z].pol.p1.yComp +screenScale - yoffset + 64, 0);
@@ -676,8 +647,6 @@ int main(void)
                         glVertex3f(tiles[z].pol.p2.xComp - xoffset, tiles[z].pol.p2.yComp +screenScale - yoffset + 64, 0);
                         glColor4f(0.7, 0.8, 0.9, .6);
                         glVertex3f(player.pol.p1.xComp - xoffset, player.pol.p1.yComp - yoffset + screenScale + 64 - player.zpos, 0);
-
-                         
 
                         
 
@@ -731,11 +700,12 @@ int main(void)
             
         }
         
+        
         //draw player
         glDrawSprite(*player.image, player.pol.p1.xComp -30 - xoffset,  player.pol.p1.yComp - player.zpos + screenScale - yoffset, 64, 64 );
 
         
-        //draw in front of player
+        //draw things in front of player
         for(int z = 0; z < (mapWidth * mapHeight); z++)
         {
             if(tiles[z].stack > 1)
@@ -772,7 +742,7 @@ int main(void)
 
 
         
-        
+        /*
         glLineWidth(2.5);
         glColor3f(1.0f, 0.0f, 0.0f);
      
@@ -780,6 +750,7 @@ int main(void)
         glVertex2f(10, 10);
         glVertex2f(20, 20);
         glEnd();
+         */
 
         SDL_GL_SwapWindow(window);
         //glFlush();
