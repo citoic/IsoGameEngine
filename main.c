@@ -15,6 +15,7 @@
 #define SDL_MAIN_HANDLED
 
 //structure to hold the coordinates of a four point polygon
+//should be moved to a new file
 struct coords
 {
     float pt1x;
@@ -28,6 +29,7 @@ struct coords
 };
 
 //structure for defining an entity, or player
+//should be moved to a new file
 struct entity
 {
     char type;
@@ -77,6 +79,7 @@ void updateCoords(float x, float y, struct entity* e)
     
 }
 
+//should be moved to a new file
 void playerJump(struct entity* e)
 {
     if(e->isJumping)
@@ -87,26 +90,24 @@ void playerJump(struct entity* e)
     e->zVel = 6;
 }
 
+//should be moved to a new file
 void playerTick(struct entity* e)
 {
-    //if(e->isJumping)
-    //{
-        float newz = e->zpos + e->zVel;
-        e->zpos = newz;
-        e->zVel -= .3;
-        
-        if(e->zpos < e->stack * 10 && e->stack >1)
-        {
-            e->zVel = 0;
-            e->zpos = e->stack * 10;
-            e->isJumping = 0;
-        }
+    float newz = e->zpos + e->zVel;
+    e->zpos = newz;
+    e->zVel -= .3;
+    
+    if(e->zpos < e->stack * 10 && e->stack >1)
+    {
+        e->zVel = 0;
+        e->zpos = e->stack * 10;
+        e->isJumping = 0;
+    }
     else if(e->zpos < 0)
     {
         e->zpos = 0;
         e->isJumping = 0;
     }
-   // }
 }
 
 
